@@ -43,7 +43,12 @@ rerun tests and push. Use `git merge --abort` to abandon an in-progress merge.
 
 ## Before sharing
 
-- Coordinate shared schemas, migrations, dependencies and configuration changes.
+- Youssef Ashraf and Ahmed Amr jointly own application frontend/backend changes.
+- Yahya and Ahmed share Web scanner changes; Yahya and NourEldin share AD scanner changes.
+- Use top-level `scanners/`, `frontend/` and `backend/`; do not nest scanners
+  inside the application backend.
+- Coordinate shared schemas, migrations, dependencies and configuration changes
+  with the application pair; scanner semantics need the relevant scanner owner.
 - No credentials, real directory exports, private evidence or sensitive reports in Git.
 - `.gitignore` is a convenience, not a secret detector. Inspect the staged diff.
 - Rotate accidentally exposed credentials; deleting a file does not erase history.

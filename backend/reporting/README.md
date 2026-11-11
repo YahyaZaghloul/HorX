@@ -1,7 +1,9 @@
 # Reporting
 
-**Owner: Ahmed Amr. Backend reviewer: Youssef Ashraf.**
+**Joint owners: Youssef Ashraf and Ahmed Amr.**
 
+Coordinate report rendering, authorized data access and export endpoints together
+as part of the shared application frontend/backend responsibility.
 Implement HTML/PDF/JSON report presentation from authorized normalized data.
 Include scan configuration, versions, scope, findings, evidence, remediation,
 coverage gaps and retest history. No report exporter exists yet.

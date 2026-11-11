@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 class ScaffoldTests(unittest.TestCase):
     def test_required_guides_exist(self):
         paths = (
-            "backend/core", "backend/scanners/web", "backend/scanners/ad",
+            "backend/core", "scanners/web", "scanners/ad",
             "backend/reporting", "frontend", "tests", "tests/core", "tests/web",
             "tests/ad", "tests/reporting", "tests/integration",
             "tests/fixtures/web", "tests/fixtures/ad", "docs",
@@ -23,13 +23,27 @@ class ScaffoldTests(unittest.TestCase):
     def test_owners_documented(self):
         for path, owner in (
             ("backend/core", "Youssef Ashraf"),
-            ("backend/scanners/web", "Yahya Mohamed"),
-            ("backend/scanners/ad", "NourEldin"),
+            ("scanners/web", "Yahya Mohamed"),
+            ("scanners/ad", "NourEldin"),
             ("backend/reporting", "Ahmed Amr"),
             ("frontend", "Ahmed Amr"),
         ):
             with self.subTest(path=path):
                 self.assertIn(owner, (ROOT / path / "README.md").read_text())
+
+    def test_web_ownership_is_shared(self):
+        guide = (ROOT / "scanners" / "web" / "README.md").read_text()
+        self.assertIn("**Owners: Yahya Mohamed and Ahmed Amr.**", guide)
+
+    def test_ad_ownership_is_shared(self):
+        guide = (ROOT / "scanners" / "ad" / "README.md").read_text()
+        self.assertIn("**Owners: Yahya Mohamed and NourEldin.**", guide)
+
+    def test_three_top_level_components(self):
+        for component in ("scanners", "frontend", "backend"):
+            with self.subTest(component=component):
+                self.assertTrue((ROOT / component / "README.md").is_file())
+        self.assertFalse((ROOT / "backend" / "scanners").exists())
 
     def test_local_markdown_links_resolve(self):
         for document in ROOT.rglob("*.md"):

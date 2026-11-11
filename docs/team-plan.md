@@ -2,13 +2,21 @@
 
 | Member | Owned paths | Primary work |
 | --- | --- | --- |
-| Youssef Ashraf | `backend/core/` | API, database, queue, scope, credentials, shared contracts, lifecycle |
-| Yahya Mohamed | `backend/scanners/web/` | Web integrations, authentication, parsers, Web lab and accuracy |
-| NourEldin | `backend/scanners/ad/` | Read-only collection, AD rules, protocol posture, AD lab |
-| Ahmed Amr | `frontend/`, `backend/reporting/` | Dashboard, evidence/coverage views, reports and comparison |
+| Youssef Ashraf | `backend/core/`, `backend/reporting/`, `frontend/` (jointly with Ahmed) | Application frontend/backend: APIs, data, orchestration, security, dashboard and reporting |
+| Yahya Mohamed | `scanners/web/` (with Ahmed), `scanners/ad/` (with NourEldin) | Web ZAP/active checks; joint AD collection, rules, protocol checks and tests |
+| NourEldin | `scanners/ad/` (shared with Yahya) | Joint AD collection, rules, protocol posture, lab and tests |
+| Ahmed Amr | `backend/core/`, `backend/reporting/`, `frontend/` (with Youssef); `scanners/web/` (with Yahya) | Joint application work; Web baseline/configuration/exposure checks and curated Nuclei |
 
-Youssef reviews backend reporting integration. Shared interfaces are team decisions.
-Each member writes their own tests and documentation; Ahmed is not the team's sole tester.
+**Youssef Ashraf and Ahmed Amr jointly own the application frontend and backend.**
+They agree their internal task split; neither is assigned exclusively to one side.
+Scanner engines live in top-level `scanners/`, separate from `frontend/` and
+`backend/`. They consume shared application contracts/services rather than building
+separate APIs, databases or dashboards.
+
+Yahya and NourEldin jointly own AD; their internal AD task split is agreed together.
+Shared interfaces are team decisions; Youssef and Ahmed maintain their implementation.
+Each member writes their own tests and documentation; the application pair is not
+responsible for writing all scanner tests.
 Names are ownership labels, not GitHub handles. CODEOWNERS/reviewer automation is
 not configured because the other members' account handles were not provided.
 

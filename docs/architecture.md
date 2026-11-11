@@ -6,14 +6,26 @@ Repository organization only. HorX is intended as a Web and Active Directory
 vulnerability scanner integrating existing tools, not an autonomous exploitation
 framework. No detection, service or storage implementation is present.
 
+## Three top-level components
+
+- `scanners/`: tool adapters, checks, collection, parsers and scanner evidence.
+- `frontend/`: analyst interface, scan setup, results and report presentation.
+- `backend/`: API, access control, scope, credentials, persistence, job dispatch,
+  result ingestion, lifecycle and authorized reporting.
+
+The separation is a code/ownership boundary, not a requirement to create a separate
+HTTP service for every engine. Scanner execution stays outside API request handlers.
+
 ## Proposed flow
 
 ```text
-React dashboard → FastAPI core → queue → Web / AD workers
-                       ↕                       ↓
-                  PostgreSQL ← normalized results + coverage
-                       ↕
-                restricted evidence storage → reporting
+frontend/ (React)
+    ↕ documented API
+backend/ (FastAPI, storage, orchestration, reporting)
+    ↕ versioned execution/result contract through workers/queue
+scanners/ (Web and AD engines)
+    → observations + evidence references + explicit coverage
+backend/ → authorized findings, coverage and reports → frontend/
 ```
 
 Python/FastAPI, React/TypeScript, PostgreSQL and Redis/Celery are proposed choices.
@@ -23,8 +35,11 @@ versions before introducing dependencies. No deployment stack is supplied yet.
 
 ## Boundaries
 
+- Youssef Ashraf and Ahmed Amr jointly own the application frontend/backend.
 - Core owns access control, target scope, credentials, persistence and scan lifecycle.
-- Web/AD adapters produce observations, evidence references and per-check coverage.
+- Yahya and Ahmed share Web adapters (ZAP/active and baseline/Nuclei respectively);
+  Yahya and NourEldin share AD adapters. Scanner modules produce observations, evidence
+  references and per-check coverage rather than implementing application services.
 - Reporting consumes authorized results; it does not decide whether fixes succeeded.
 - Frontend consumes documented API responses rather than scanner-native output.
 - Everyone owns tests and documentation for their own module.

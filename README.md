@@ -9,13 +9,13 @@ database, workers, or vulnerability detection has been implemented yet.
 
 ```text
 HorX/
-├── backend/
-│   ├── core/             # Youssef Ashraf
-│   ├── scanners/
-│   │   ├── web/          # Yahya Mohamed
-│   │   └── ad/           # NourEldin
-│   └── reporting/        # Ahmed Amr; backend review by Youssef
-├── frontend/             # Ahmed Amr
+├── scanners/             # Independent scanner engines
+│   ├── web/              # Yahya Mohamed + Ahmed Amr
+│   └── ad/               # Yahya Mohamed + NourEldin
+├── frontend/             # Youssef Ashraf + Ahmed Amr
+├── backend/              # Youssef Ashraf + Ahmed Amr
+│   ├── core/             # APIs, data, jobs and shared services
+│   └── reporting/        # Authorized report generation
 ├── tests/                # Each member tests their own module
 ├── docs/                 # Architecture and integration agreements
 ├── .github/workflows/    # Repository structure checks
@@ -24,6 +24,22 @@ HorX/
 ```
 
 Folders contain responsibility guides so Git tracks them without empty placeholders.
+
+## Ownership boundaries
+
+- **Youssef Ashraf and Ahmed Amr jointly own the application frontend and backend:**
+  APIs, database, authentication/authorization, credentials, orchestration, reporting
+  and dashboard integration. They coordinate the internal division of this work.
+- **Yahya Mohamed and Ahmed Amr share the Web scanner:** Yahya leads ZAP,
+  authenticated discovery and selected active checks; Ahmed leads configuration/
+  exposure checks and curated Nuclei integration. Both own their tests/fixtures.
+- **Yahya Mohamed and NourEldin share the AD scanner:** collection, rules, protocol
+  checks and AD tests/fixtures. They coordinate the internal AD task split.
+
+The three top-level components are `scanners/`, `frontend/` and `backend/`.
+Scanner engines are no longer nested inside the application backend. They consume
+versioned execution/result contracts and services supplied by Youssef and Ahmed.
+Folder separation does not require three separate network services.
 
 ## Start here
 
